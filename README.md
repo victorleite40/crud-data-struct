@@ -1,24 +1,35 @@
 # CRUD Data Struct
 Simple CRUD implementation in java.
 
-### API
+`
+Create, Read, Update and Delete.
+`
 
-#### Add
-```add <id> <first_name> <last_name> <birtday> <phone_number>```
+## API
 
-#### Delete
-```del <id>```
+### Add
+```
+add <id> <first_name> <last_name> <birtday> <phone_number>
+```
 
-#### Get
-```info <id>```
+### Delete
+```
+del <id>
+```
 
-#### Query
-```query <tag>:<value> ...```
+### Get
+```
+info <id>
+```
 
+### Query
+```
+query <tag>:<value> ...
+```
 ##### Tags:
-`fn = First Name`
-`ln = Last Name`
-`bd = Birth Day`
-`pn = Phone Number`
+`fn = First Name` <br>
+`ln = Last Name` <br>
+`bd = Birth Day` <br>
+`pn = Phone Number` <br>
 
 ##### Thanks for watching!
