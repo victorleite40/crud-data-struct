@@ -1,8 +1,10 @@
 package crudEstrutura;
 
+import javax.swing.text.Position;
+
 public class DynamicList {
-    private Node start;
-    private Node end;
+    private Person start;
+    private Person end;
     private int amount;
 
     public DynamicList() {
@@ -16,35 +18,45 @@ public class DynamicList {
     
     public boolean isEmpty() {
         return start==null;
+    }  
+
+    public int getPosById(int id) {
+        Person current = start;
+        
+        for (int counter=0; counter<size(); counter++) {
+            if (current.id==id) return counter;
+            current = current.next;
+        }
+        return -1;
     }
 
-    public boolean exist(String data) {
+    public boolean existId(int id) {
         if (!isEmpty()) {
-            Node current = start;
+            Person current = start;
             while (current!=null) {
-                if (current.firstName==data) return true;
+                if(current.id==id) return true;
                 current = current.next;
             }
         }
         return false;
     }
 
-    public void add(int id, String firstName, String lastName, String birthDay, String phoneNumber) {
-        if (id<=size() && id>-1) {
-            Node newNode = new Node(firstName, lastName, birthDay, phoneNumber);
+    public void add(int id, String firstName, String lastName, String birthDay, String phoneNumber, int position) {
+        if (position<=size() && position>-1) {
+            Person newNode = new Person(id, firstName, lastName, birthDay, phoneNumber);
             
-            if (id==0 && isEmpty()) {
+            if (position==0 && isEmpty()) {
                 start = end = newNode;
-            } else if (id==0 && !isEmpty()) {
+            } else if (position==0 && !isEmpty()) {
                 newNode.next = start;
                 start = newNode;
-            } else if (id==size()) {
+            } else if (position==size()) {
                 end.next = newNode;
                 end = newNode;
             } else {
-                Node previous = start;
+                Person previous = start;
                 
-                for (int i = 0; i < id-1; i++) {
+                for (int i = 0; i < position-1; i++) {
                     previous = previous.next;                    
                 }
 
@@ -55,50 +67,58 @@ public class DynamicList {
         }
     }
 
-    public void add(String firstName, String lastName, String birthDay, String phoneNumber) {
-        add
-        (
-            size(),
-            firstName, 
-            lastName, 
-            birthDay, 
-            phoneNumber
-            
-        );
+    public void add(int id, String firstName, String lastName, String birthDay, String phoneNumber) throws Exception {
+        if (!existId(id)) {
+            add
+            (
+                id,
+                firstName, 
+                lastName, 
+                birthDay, 
+                phoneNumber,
+                size()
+                
+            );
+        } else {
+            System.out.println("ID " + id + " já cadastrado.");
+        }
     }
 
-    public String remove(int id) throws Exception {
-        if (id==0) {
-            Node temp = start;
+    public void remove(int id) throws Exception {
+        int position = getPosById(id);
+
+        if (position == 0) {
+            Person temp = start;
             if (size() > 1) {
                 start = start.next;
             } else {
                 start = end = null;
             }
             amount--;
-            return temp.firstName;
         }
         try {
-            Node previous = start;
-
-            for (int counter = 0; counter<id-1; counter++) {
+            Person previous = start;
+            int contador = 0;
+            while (contador < position - 1) {
                 previous = previous.next;
+                contador++;
             }
-            
-            Node temp = previous.next;
+            Person temp = previous.next;
             previous.next = temp.next;
             amount--;
-            return temp.firstName;
-        } catch (Exception e) {
-            throw new Exception(e);
+            
+        } catch (NullPointerException e) {
+           System.err.println( "ID " + id + " não encontrado.");
         }
     }
 
     public void set(String newData, int id) {
-        if (id<size() && id>-1) {
-            Node current = start;
+        int position = getPosById(id);
+
+        if (position<size() && position>-1) {
+            Person current = start;
             
-            for (int counter=0; counter!=id; counter++) {
+            for (int counter=0; counter!=position; counter++) {
                 current = current.next;
             }
             current.firstName = newData;
@@ -107,16 +127,17 @@ public class DynamicList {
 
     public String get(int id) throws Exception{
         try {
-            Node current = start;
+            Person current = start;
+            int position = getPosById(id);
 
-            for (int counter=0; counter!=id; counter++) {
+            for (int counter=0; counter!=position; counter++) {
                 current = current.next;
             }
-            
+
             return current.firstName + " " + current.lastName + " " + current.birthDay + " " + current.phoneNumber;
             
-        } catch (Exception e) {
-            throw new Exception(e);
+        } catch (NullPointerException e) {
+            return "ID " + id + " não encontrado.";
         }
         
     }
@@ -124,7 +145,7 @@ public class DynamicList {
     @Override
     public String toString() {
         String dataString = "";
-        Node temp = start;
+        Person temp = start;
 
         while (temp != null) {
             dataString += temp.firstName + " " + temp.lastName + " " + temp.birthDay + " " + temp.phoneNumber +"\n";
