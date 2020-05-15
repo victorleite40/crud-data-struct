@@ -18,7 +18,7 @@ public class DynamicList {
     
     public boolean isEmpty() {
         return start==null;
-    }  
+    }
 
     public int getPosById(int id) {
         Person current = start;
@@ -86,10 +86,9 @@ public class DynamicList {
 
     public void remove(int id) throws Exception {
         int position = getPosById(id);
-
-        if (position == 0) {
-            Person temp = start;
-            if (size() > 1) {
+        
+        if (position==0) {
+            if (size()>1) {
                 start = start.next;
             } else {
                 start = end = null;
@@ -98,17 +97,17 @@ public class DynamicList {
         }
         try {
             Person previous = start;
-            int contador = 0;
-            while (contador < position - 1) {
+            
+            for (int counter = 0; counter<position-1; counter++) {
                 previous = previous.next;
-                contador++;
             }
+            
             Person temp = previous.next;
             previous.next = temp.next;
             amount--;
             
         } catch (NullPointerException e) {
-           System.err.println( "ID " + id + " não encontrado.");
+            System.err.println( "ID " + id + " não encontrado.");
         }
     }
 
@@ -138,17 +137,16 @@ public class DynamicList {
             
         } catch (NullPointerException e) {
             return "ID " + id + " não encontrado.";
-        }
-        
+        }   
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         String dataString = "";
         Person temp = start;
 
-        while (temp != null) {
-            dataString += temp.firstName + " " + temp.lastName + " " + temp.birthDay + " " + temp.phoneNumber +"\n";
+        for (int counter = 0; temp!=null; counter++) {
+            dataString += (counter>0) ? "\n" : "" ;
+            dataString += "[" + temp.id + "] "  + temp.firstName + " " + temp.lastName + " " + temp.birthDay + " " + temp.phoneNumber;
             temp = temp.next;
         }
         return dataString;
