@@ -29,11 +29,19 @@ public class AppCRUD {
                     break;
 
                 case "info":
-                    System.out.println(list.get( toInt(input[1]) ));
+                    try {
+                        System.out.println(list.get( toInt(input[1]) ));
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.err.println("Tente: info <id>");
+                    }
                     break;
 
                 case "query":
                     System.out.println(list.get( toInt(input[1]) ));
+                    break;
+
+                case "list":
+                    System.out.println(list);
                     break;
 
                 case "000":
