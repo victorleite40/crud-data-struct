@@ -15,42 +15,47 @@ public class AppCRUD {
 
         boolean runMenu = true;
 
+        
+
         while (runMenu)
         {
-            String [] input = scan.nextLine().split(" ");
+            String input[] = scan.nextLine().split(" ");
 
-            switch (input[0]) {
-                case "add":
-                    list.add(toInt(input[1]), input[2], input[3], input[4], input[5]);
-                    break;
-                    
-                case "del":
-                    list.remove(toInt(input[1]));
-                    break;
+            //try {
+                switch (input[0]) {
+                    case "add":
+                        list.add(toInt(input[1]), input[2], input[3], input[4], input[5]);
+                        // "add <id> <first_name> <last_name> <birtday> <phone_number>";
+                        break;
+                        
+                    case "del":
+                        list.remove(toInt(input[1]));
+                        // "del <id>";
+                        break;
 
-                case "info":
-                    try {
+                    case "info":
                         System.out.println(list.get( toInt(input[1]) ));
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.err.println("Tente: info <id>");
-                    }
-                    break;
+                        // "info <id>";
+                        break;
 
-                case "query":
-                    System.out.println(list.get( toInt(input[1]) ));
-                    break;
+                    case "query":
+                        System.out.println(list.query(input));
+                        break;
 
-                case "list":
-                    System.out.println(list);
-                    break;
+                    case "000":
+                        runMenu = false;
+                        break;
+                        
+                    case "list": // DEV
+                        System.out.println(list);
+                        break;
 
-                case "000":
-                    runMenu = false;
-                    break;
-
-                default:
-                    break;
-            }
+                    default:
+                        break;
+                }
+            /*} catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("Argumentos insuficientes.");
+            }*/
         }
 
         scan.close();
