@@ -1,7 +1,5 @@
 package crudEstrutura;
 
-import javax.swing.text.Position;
-
 public class DynamicList {
     private Person start;
     private Person end;
@@ -23,8 +21,8 @@ public class DynamicList {
     public int getPosById(int id) {
         Person current = start;
         
-        for (int counter=0; counter<size(); counter++) {
-            if (current.id==id) return counter;
+        for (int i=0; i<size(); i++) {
+            if (current.id==id) return i;
             current = current.next;
         }
         return -1;
@@ -87,27 +85,32 @@ public class DynamicList {
     public void remove(int id) throws Exception {
         int position = getPosById(id);
         
-        if (position==0) {
-            if (size()>1) {
-                start = start.next;
+        if (position>-1) {
+            if (position==0) {
+                if (size()>1) {
+                    start = start.next;
+                } else {
+                    start = end = null;
+                }
+                amount--;
             } else {
-                start = end = null;
+                try {
+                    Person previous = start;
+                    
+                    for (int i = 0; i<position-1; i++) {
+                        previous = previous.next;
+                    }
+                    
+                    Person temp = previous.next;
+                    previous.next = temp.next;
+                    amount--;
+                    
+                } catch (NullPointerException e) {
+                    System.err.println("ID " + id + " não encontrado.");
+                }
             }
-            amount--;
-        }
-        try {
-            Person previous = start;
-            
-            for (int counter = 0; counter<position-1; counter++) {
-                previous = previous.next;
-            }
-            
-            Person temp = previous.next;
-            previous.next = temp.next;
-            amount--;
-            
-        } catch (NullPointerException e) {
-            System.err.println( "ID " + id + " não encontrado.");
+        } else {
+            System.err.println("ID " + id + " não encontrado.");
         }
     }
 
@@ -117,7 +120,7 @@ public class DynamicList {
         if (position<size() && position>-1) {
             Person current = start;
             
-            for (int counter=0; counter!=position; counter++) {
+            for (int i=0; i!=position; i++) {
                 current = current.next;
             }
             current.firstName = newData;
@@ -126,30 +129,49 @@ public class DynamicList {
 
     public String get(int id) throws Exception{
         try {
-            Person current = start;
             int position = getPosById(id);
+            Person current = start;
 
-            for (int counter=0; counter!=position; counter++) {
+            for (int i=0; i!=position; i++) {
                 current = current.next;
             }
 
             return current.firstName + " " + current.lastName + " " + current.birthDay + " " + current.phoneNumber;
-            
         } catch (NullPointerException e) {
             return "ID " + id + " não encontrado.";
         }   
+    }
+
+    public String query(String input[]) {
+        String dataString = "";
+
+        Person current = start;
+
+
+        for (int i=0; i<input.length-1; i++) {
+            input[i] = input[i+1];
+            String args[] = input[i].split(":");
+        }
+
+        /*
+        while (current!=null) {
+            //if(current.id==id) return true;
+            current = current.next;
+        }
+        */
+        return dataString;
     }
 
     @Override public String toString() {
         String dataString = "";
         Person temp = start;
 
-        for (int counter = 0; temp!=null; counter++) {
-            dataString += (counter>0) ? "\n" : "" ;
-            dataString += "[" + temp.id + "] "  + temp.firstName + " " + temp.lastName + " " + temp.birthDay + " " + temp.phoneNumber;
+        for (int i = 0; temp!=null; i++) {
+            dataString += (i>0) ? "\n" : "" ;
+            dataString += "[" + temp.id + "] "  + temp.firstName + " " + temp.ln + " " + temp.birthDay + " " + temp.phoneNumber;
             temp = temp.next;
         }
-        return dataString;
+
+        return dataString += "\nSize: " + size();
     }
-    
 }
