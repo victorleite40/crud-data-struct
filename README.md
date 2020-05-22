@@ -4,9 +4,9 @@ Simple CRUD implementation in java.
 `
 Create, Read, Update and Delete.
 `
+<br>
 
-
-## API
+# API
 
 ### Add
 ```
