@@ -42,6 +42,10 @@ public class AppCRUD {
                         System.out.println(list.query(input));
                         break;
 
+                    case "list":
+                        System.out.println(list);
+                        break;
+                        
                     case "000":
                         runMenu = false;
                         break;
