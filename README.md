@@ -33,4 +33,9 @@ query <tag>:<value> ...
 `bd = Birth Day` <br>
 `pn = Phone Number` <br>
 
+### List
+```
+Returns list
+```
+
 ##### Thanks for watching!
