@@ -75,7 +75,7 @@ public class DynamicList
         }
     }
 
-    public void add(int id, String firstName, String lastName, String birthDay, String phoneNumber) throws Exception 
+    public String add(int id, String firstName, String lastName, String birthDay, String phoneNumber) throws Exception 
     {
         if (!existId(id)) {
             add
@@ -88,23 +88,29 @@ public class DynamicList
                 size()
                 
             );
+            return "";
         } else {
-            System.out.println("ID " + id + " já cadastrado.");
+            return "ID " + id + " já cadastrado.\n";
         }
     }
 
-    public void remove(int id) throws Exception 
+    public String remove(int id) throws Exception 
     {
         int position = getPosById(id);
         
-        if (position>-1) {
-            if (position==0) {
-                if (size()>1) {
+        if (position>-1) 
+        {
+            if (position==0) 
+            {
+                if (size()>1) 
+                {
                     start = start.next;
                 } else {
                     start = end = null;
                 }
                 amount--;
+
+                return "";
             } else {
                 try {
                     Person previous = start;
@@ -116,14 +122,14 @@ public class DynamicList
                     Person temp = previous.next;
                     previous.next = temp.next;
                     amount--;
-                    
+
+                    return "";                    
                 } catch (NullPointerException e) {
-                    System.err.println("ID " + id + " não encontrado."); // TESTAR
-                    // throw new Exception( "ID " + id + " não encontrado." );
+                    return "ID " + id + " não existente.\n";
                 }
             }
         } else {
-            System.err.println("ID " + id + " não encontrado.");
+            return "ID " + id + " não existente.\n";
         }
     }
 
@@ -151,9 +157,9 @@ public class DynamicList
                 current = current.next;
             }
 
-            return current.firstName + " " + current.lastName + " " + current.birthDay + " " + current.phoneNumber;
+            return current.firstName + " " + current.lastName + " " + current.birthDay + " " + current.phoneNumber + "\n";
         } catch (NullPointerException e) {
-            return "ID " + id + " não encontrado.";
+            return "ID " + id + " não existente.\n";
         }   
     }
 
@@ -198,23 +204,54 @@ public class DynamicList
                 
                 while (current!=null)
                 {
-                    if (arg1[1].equals(current.firstName) || arg1[1].equals(current.lastName) || arg1[1].equals(current.birthDay) || arg1[1].equals(current.phoneNumber)
-                        &&
-                        arg2[1].equals(current.firstName) || arg2[1].equals(current.lastName) || arg2[1].equals(current.birthDay) || arg2[1].equals(current.phoneNumber))
+                    if (arg1[1].equals(current.firstName) || arg1[1].equals(current.lastName) || arg1[1].equals(current.birthDay) || arg1[1].equals(current.phoneNumber))
                     {
-                        dataString += current.id + " ";
+                        if(arg2[1].equals(current.firstName) || arg2[1].equals(current.lastName) || arg2[1].equals(current.birthDay) || arg2[1].equals(current.phoneNumber))
+                        {
+                            dataString += current.id + " ";
+                        }
                     }
+                        
                     current = current.next;
                 }        
-
             }
             else if (input.length==4)
             {
+                String arg1[] = input[1].split(":");
+                String arg2[] = input[2].split(":");
                 String arg3[] = input[3].split(":");
+                
+                while (current!=null)
+                {
+                    if (arg1[1].equals(current.firstName) || arg1[1].equals(current.lastName) || arg1[1].equals(current.birthDay) || arg1[1].equals(current.phoneNumber))
+                    if (arg2[1].equals(current.firstName) || arg2[1].equals(current.lastName) || arg2[1].equals(current.birthDay) || arg2[1].equals(current.phoneNumber))
+                    if (arg3[1].equals(current.firstName) || arg3[1].equals(current.lastName) || arg3[1].equals(current.birthDay) || arg3[1].equals(current.phoneNumber))
+                    {
+                        dataString += current.id + " ";
+                    }
+
+                    current = current.next;
+                }      
             }
             else if (input.length==5)
             {
+                String arg1[] = input[1].split(":");
+                String arg2[] = input[2].split(":");
+                String arg3[] = input[3].split(":");
                 String arg4[] = input[4].split(":");
+                
+                while (current!=null)
+                {
+                    if (arg1[1].equals(current.firstName) || arg1[1].equals(current.lastName) || arg1[1].equals(current.birthDay) || arg1[1].equals(current.phoneNumber))
+                    if (arg2[1].equals(current.firstName) || arg2[1].equals(current.lastName) || arg2[1].equals(current.birthDay) || arg2[1].equals(current.phoneNumber))
+                    if (arg3[1].equals(current.firstName) || arg3[1].equals(current.lastName) || arg3[1].equals(current.birthDay) || arg3[1].equals(current.phoneNumber))
+                    if (arg4[1].equals(current.firstName) || arg4[1].equals(current.lastName) || arg4[1].equals(current.birthDay) || arg4[1].equals(current.phoneNumber))
+                    {
+                        dataString += current.id + " ";
+                    }
+
+                    current = current.next;
+                }      
             }
         }
 
